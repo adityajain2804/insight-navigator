@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AnalyticsRouteImport } from './routes/analytics'
 import { Route as CampaignRouteImport } from './routes/campaign'
 import { Route as CausalRouteImport } from './routes/causal'
 import { Route as GraphRouteImport } from './routes/graph'
@@ -18,6 +19,11 @@ import { Route as ScenarioRouteImport } from './routes/scenario'
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AnalyticsRoute = AnalyticsRouteImport.update({
+  id: '/analytics',
+  path: '/analytics',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CampaignRoute = CampaignRouteImport.update({
@@ -43,6 +49,7 @@ const ScenarioRoute = ScenarioRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/analytics': typeof AnalyticsRoute
   '/campaign': typeof CampaignRoute
   '/causal': typeof CausalRoute
   '/graph': typeof GraphRoute
@@ -50,6 +57,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/analytics': typeof AnalyticsRoute
   '/campaign': typeof CampaignRoute
   '/causal': typeof CausalRoute
   '/graph': typeof GraphRoute
@@ -58,6 +66,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/analytics': typeof AnalyticsRoute
   '/campaign': typeof CampaignRoute
   '/causal': typeof CausalRoute
   '/graph': typeof GraphRoute
@@ -65,14 +74,23 @@ export interface FileRoutesById {
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/campaign' | '/causal' | '/graph' | '/scenario'
+  fullPaths:
+    '/' | '/analytics' | '/campaign' | '/causal' | '/graph' | '/scenario'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/campaign' | '/causal' | '/graph' | '/scenario'
-  id: '__root__' | '/' | '/campaign' | '/causal' | '/graph' | '/scenario'
+  to: '/' | '/analytics' | '/campaign' | '/causal' | '/graph' | '/scenario'
+  id:
+    | '__root__'
+    | '/'
+    | '/analytics'
+    | '/campaign'
+    | '/causal'
+    | '/graph'
+    | '/scenario'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AnalyticsRoute: typeof AnalyticsRoute
   CampaignRoute: typeof CampaignRoute
   CausalRoute: typeof CausalRoute
   GraphRoute: typeof GraphRoute
@@ -86,6 +104,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/analytics': {
+      id: '/analytics'
+      path: '/analytics'
+      fullPath: '/analytics'
+      preLoaderRoute: typeof AnalyticsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/campaign': {
@@ -121,6 +146,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AnalyticsRoute: AnalyticsRoute,
   CampaignRoute: CampaignRoute,
   CausalRoute: CausalRoute,
   GraphRoute: GraphRoute,

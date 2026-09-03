@@ -16,7 +16,9 @@ import type { ReactNode } from "react";
 
 const NAV = [
   { to: "/", label: "Campaign Studio" },
+  { to: "/analytics", label: "Analytics" },
   { to: "/causal", label: "Causal Deep-Dive" },
+
   { to: "/campaign", label: "Post-Campaign Measurement & Audit" },
   { to: "/graph", label: "Knowledge Graph" },
 ] as const;
